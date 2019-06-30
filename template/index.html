@@ -1,0 +1,43 @@
+{{define "index"}}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='UTF-8'>
+  <title>post</title>
+</head>
+<body>
+<div id="content"></div>
+NAME : <input type="text" id="js-store-name"><br>
+MAIL : <input type="email" id="js-store-mail"><br>
+PASS : <input type="password" id="js-store-password"><br>
+<button id="js-submit">submit</button>
+<script>
+  const submit = document.getElementById("js-submit");
+  submit.addEventListener("click", () => {
+    const name = document.getElementById("js-store-name").value;
+    const mail = document.getElementById("js-store-mail").value;
+    const password = document.getElementById("js-store-password").value;
+    fetch(`/signup`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name,
+        mail,
+        password
+      })
+    }).then((response) => {
+      return response.json();
+    }).then((res) => {
+      document.getElementById('content').innerHTML = `
+      name：${res.name}<br>
+      Mail：${res.mail}<br>
+      PASSWORD：${res.password}<br>`;
+    });
+  });
+</script>
+</body>
+</html>
+{{end}}
